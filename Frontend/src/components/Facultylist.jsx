@@ -1,34 +1,28 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  FaUserGraduate,
-  FaEdit,
-  FaTrash,
-  FaPlus,
-  FaEnvelope,
-} from "react-icons/fa";
+import { FaUserTie, FaEdit, FaTrash, FaPlus, FaEnvelope } from "react-icons/fa";
 
-const Studentlist = () => {
-  const [students, setStudents] = useState([]);
+const Facultylist = () => {
+  const [faculty, setFaculty] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    grade: "",
+    department: "",
   });
   const [editing, setEditing] = useState(null);
 
   useEffect(() => {
-    fetchStudents();
+    fetchFaculty();
   }, []);
 
-  const fetchStudents = async () => {
+  const fetchFaculty = async () => {
     try {
       const response = await axios.get(
-        "https://crudmvc.onrender.com/api/students"
+        "https://crudmvc.onrender.com/api/faculty"
       );
-      setStudents(response.data);
+      setFaculty(response.data);
     } catch (error) {
-      console.error("Error fetching students:", error);
+      console.error("Error fetching faculty:", error);
     }
   };
 
@@ -37,15 +31,15 @@ const Studentlist = () => {
     try {
       if (editing) {
         await axios.put(
-          `https://crudmvc.onrender.com/api/students/${editing}`,
+          `https://crudmvc.onrender.com/api/faculty/${editing}`,
           formData
         );
         setEditing(null);
       } else {
-        await axios.post("https://crudmvc.onrender.com/api/students", formData);
+        await axios.post("https://crudmvc.onrender.com/api/faculty", formData);
       }
-      setFormData({ name: "", email: "", grade: "" });
-      fetchStudents();
+      setFormData({ name: "", email: "", department: "" });
+      fetchFaculty();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -53,26 +47,26 @@ const Studentlist = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://crudmvc.onrender.com/api/students/${id}`);
-      fetchStudents();
+      await axios.delete(`https://crudmvc.onrender.com/api/faculty/${id}`);
+      fetchFaculty();
     } catch (error) {
-      console.error("Error deleting student:", error);
+      console.error("Error deleting faculty:", error);
     }
   };
 
-  const handleEdit = (student) => {
-    setEditing(student._id);
+  const handleEdit = (faculty) => {
+    setEditing(faculty._id);
     setFormData({
-      name: student.name,
-      email: student.email,
-      grade: student.grade,
+      name: faculty.name,
+      email: faculty.email,
+      department: faculty.department,
     });
   };
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <h1 className="text-3xl font-bold text-center mb-8 text-black">
-        Student Management System
+        Faculty Management System
       </h1>
 
       <form
@@ -80,7 +74,7 @@ const Studentlist = () => {
         className="mb-8 bg-white rounded-lg p-6 space-y-4"
       >
         <div className="relative">
-          <FaUserGraduate className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
+          <FaUserTie className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           <input
             type="text"
             placeholder="Name"
@@ -90,7 +84,7 @@ const Studentlist = () => {
           />
         </div>
         <div className="relative">
-          <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
+          <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           <input
             type="email"
             placeholder="Email"
@@ -103,9 +97,11 @@ const Studentlist = () => {
         </div>
         <input
           type="text"
-          placeholder="Grade"
-          value={formData.grade}
-          onChange={(e) => setFormData({ ...formData, grade: e.target.value })}
+          placeholder="Department"
+          value={formData.department}
+          onChange={(e) =>
+            setFormData({ ...formData, department: e.target.value })
+          }
           className="w-full p-2 border rounded-lg text-base sm:text-lg focus:ring-2 focus:ring-black focus:border-black"
         />
         <button
@@ -117,42 +113,42 @@ const Studentlist = () => {
           ) : (
             <FaPlus className="text-xl" />
           )}
-          {editing ? "Update Student" : "Add Student"}
+          {editing ? "Update Faculty" : "Add Faculty"}
         </button>
       </form>
 
       <div className="space-y-4">
-        {students.map((student) => (
+        {faculty.map((member) => (
           <div
-            key={student._id}
+            key={member._id}
             className="bg-white duration-200 p-6 rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
           >
             <div className="w-full sm:w-auto">
               <div className="flex items-center gap-2">
                 <h3 className="font-bold text-lg sm:text-xl text-black">
-                  {student.name}
+                  {member.name}
                 </h3>
               </div>
               <div className="flex items-center gap-2 mt-2">
-                <FaEnvelope className="text-gray-600" />
+                <FaEnvelope className="text-gray-400" />
                 <p className="text-sm sm:text-base text-gray-600">
-                  {student.email}
+                  {member.email}
                 </p>
               </div>
               <p className="text-sm sm:text-base text-gray-600 mt-1">
-                Grade: {student.grade}
+                Department: {member.department}
               </p>
             </div>
             <div className="flex gap-3 w-full sm:w-auto">
               <button
-                onClick={() => handleEdit(student)}
-                className="flex-1 sm:flex-none bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 text-sm sm:text-base flex items-center justify-center gap-2 transition duration-200"
+                onClick={() => handleEdit(member)}
+                className="flex-1 sm:flex-none bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 text-sm sm:text-base flex items-center justify-center gap-2 transition duration-200"
               >
                 <FaEdit />
                 Edit
               </button>
               <button
-                onClick={() => handleDelete(student._id)}
+                onClick={() => handleDelete(member._id)}
                 className="flex-1 sm:flex-none bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 text-sm sm:text-base flex items-center justify-center gap-2 transition duration-200"
               >
                 <FaTrash />
@@ -166,4 +162,4 @@ const Studentlist = () => {
   );
 };
 
-export default Studentlist;
+export default Facultylist;
