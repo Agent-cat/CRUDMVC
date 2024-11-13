@@ -3,7 +3,7 @@ import axios from "axios";
 import { FaUpload, FaDownload } from "react-icons/fa";
 
 const BulkUpload = () => {
-  const apiUrl = "https://crudmvc.onrender.com/api/students/bulk-upload";
+  const apiUrl = "http://localhost:3000/api/students/bulk-upload";
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
@@ -61,17 +61,13 @@ const BulkUpload = () => {
 
       <div className="mb-8 bg-white rounded-lg p-6 space-y-4">
         <form onSubmit={handleUpload} className="space-y-4">
-          <div className="flex items-center justify-center w-full">
-            <label className="w-full flex flex-col items-center px-4 py-6 bg-white rounded-lg border-2 border-dashed cursor-pointer hover:bg-gray-50">
-              <FaUpload className="text-3xl text-gray-600" />
-              <span className="mt-2 text-base">Select CSV or Excel file</span>
-              <input
-                type="file"
-                className="hidden"
-                accept=".csv,.xlsx,.xls"
-                onChange={handleFileChange}
-              />
-            </label>
+          <div className="flex flex-col items-center justify-center w-full">
+            <input
+              type="file"
+              accept=".csv,.xlsx,.xls"
+              onChange={handleFileChange}
+              className="w-full p-2 border rounded-lg text-base focus:ring-2 focus:ring-black focus:border-black"
+            />
           </div>
 
           {file && (

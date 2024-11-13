@@ -84,7 +84,7 @@ exports.bulkUpload = async (req, res) => {
 
     const students = await Student.insertMany(validData);
     res.status(201).json({
-      message: " upload successful",
+      message: "",
       count: students.length,
     });
   } catch (error) {
