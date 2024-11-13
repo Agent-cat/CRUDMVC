@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 
 const Studentlist = () => {
+  const apiUrl = "https://crudmvc.onrender.com/api/students";
   const [students, setStudents] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
@@ -23,7 +24,7 @@ const Studentlist = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/students");
+      const response = await axios.get(apiUrl);
       setStudents(response.data);
     } catch (error) {
       console.error("Error fetching students:", error);
@@ -34,13 +35,10 @@ const Studentlist = () => {
     e.preventDefault();
     try {
       if (editing) {
-        await axios.put(
-          `http://localhost:3000/api/students/${editing}`,
-          formData
-        );
+        await axios.put(`${apiUrl}/${editing}`, formData);
         setEditing(null);
       } else {
-        await axios.post("http://localhost:3000/api/students", formData);
+        await axios.post(apiUrl, formData);
       }
       setFormData({ name: "", email: "", grade: "" });
       fetchStudents();
@@ -51,7 +49,7 @@ const Studentlist = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/students/${id}`);
+      await axios.delete(`${apiUrl}/${id}`);
       fetchStudents();
     } catch (error) {
       console.error("Error deleting student:", error);

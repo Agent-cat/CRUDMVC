@@ -3,6 +3,7 @@ import axios from "axios";
 import { FaUpload, FaDownload } from "react-icons/fa";
 
 const BulkUpload = () => {
+  const apiUrl = "https://crudmvc.onrender.com/api/students/bulk-upload";
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
@@ -24,15 +25,11 @@ const BulkUpload = () => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/students/bulk-upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(apiUrl, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setMessage(`Success! ${response.data.count} students uploaded.`);
       setFile(null);
       setError(null);

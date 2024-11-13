@@ -3,6 +3,7 @@ import axios from "axios";
 import { FaUserTie, FaEdit, FaTrash, FaPlus, FaEnvelope } from "react-icons/fa";
 
 const Facultylist = () => {
+  const apiUrl = "https://crudmvc.onrender.com/api/faculty";
   const [faculty, setFaculty] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
@@ -17,7 +18,7 @@ const Facultylist = () => {
 
   const fetchFaculty = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/faculty");
+      const response = await axios.get(apiUrl);
       setFaculty(response.data);
     } catch (error) {
       console.error("Error fetching faculty:", error);
@@ -28,13 +29,10 @@ const Facultylist = () => {
     e.preventDefault();
     try {
       if (editing) {
-        await axios.put(
-          `http://localhost:3000/api/faculty/${editing}`,
-          formData
-        );
+        await axios.put(`${apiUrl}/${editing}`, formData);
         setEditing(null);
       } else {
-        await axios.post("http://localhost:3000/api/faculty", formData);
+        await axios.post(apiUrl, formData);
       }
       setFormData({ name: "", email: "", department: "" });
       fetchFaculty();
@@ -45,7 +43,7 @@ const Facultylist = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/faculty/${id}`);
+      await axios.delete(`${apiUrl}/${id}`);
       fetchFaculty();
     } catch (error) {
       console.error("Error deleting faculty:", error);
