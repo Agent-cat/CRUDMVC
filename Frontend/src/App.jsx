@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Studentlist from "./components/Studentlist";
 import Facultylist from "./components/Facultylist";
+import BulkUpload from "./components/BulkUpload";
 
 const App = () => {
   return (
@@ -20,11 +21,18 @@ const App = () => {
           >
             Faculty
           </Link>
+          <Link
+            to="/bulk-upload"
+            className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition duration-200"
+          >
+            Bulk Upload
+          </Link>
         </nav>
         <Routes>
           <Route path="/" element={<Studentlist />} />
           <Route path="/students" element={<Studentlist />} />
           <Route path="/faculty" element={<Facultylist />} />
+          <Route path="/bulk-upload" element={<BulkUpload />} />
         </Routes>
       </div>
     </BrowserRouter>

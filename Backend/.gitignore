@@ -28,3 +28,7 @@ Thumbs.db
 # Build/Distribution
 /dist
 /build
+
+# Uploads directory but keep the folder
+uploads/*
+!uploads/.gitkeep
